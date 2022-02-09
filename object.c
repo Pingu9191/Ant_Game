@@ -26,7 +26,7 @@ struct _Object {
 /** object_create allocates memory for a new object
   *  and initializes its members
   */
-Object* object_create(Id id) { // Crea object a traves de una id
+Object* object_create(Id id) { 
   Object *newObject = NULL;
 
   /* Error control */
@@ -38,7 +38,7 @@ Object* object_create(Id id) { // Crea object a traves de una id
     return NULL;
   }
 
-  /* Initialization of an empty space*/
+  /* Initialization of an empty object*/
   newObject->id = id;
   newObject->name[0] = '\0';
 
@@ -71,9 +71,9 @@ Id object_get_id(Object* object) {
   return object->id;
 }
 
-/** It sets the name of a space
+/** It sets the name of a object
   */
-STATUS space_set_name(Object* object, char* name) {
+STATUS object_set_name(Object* object, char* name) {
   
   /* Error control */
   if (!object || !name) {
@@ -96,7 +96,7 @@ const char * object_get_name(Object* object) {
   return object->name;
 }
 
-/** It prints the space information
+/** It prints the object information
   */
 STATUS object_print(Object* object) {
   Id idaux = NO_ID;
@@ -106,7 +106,8 @@ STATUS object_print(Object* object) {
     return ERROR;
   }
 
-  /* 1. Print the id and the name of the object */
+  /*Print the id and the name of the object */
+  
   fprintf(stdout, "--> Object (Id: %ld; Name: %s)\n", object->id, object->name);
 
   return OK;
