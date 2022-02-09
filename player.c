@@ -29,7 +29,7 @@ struct _Player {
 /** player_create allocates memory for a new player
   *  and initializes its members
   */
-Player* player_create(Id id) { // Crea space a traves de una id
+Player* player_create(Id id) {
   Player *newPlayer = NULL;
 
   /* Error control */
