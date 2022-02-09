@@ -41,10 +41,10 @@ Object* object_create(Id id);
 STATUS object_destroy(Object* object);
 
 /**
-  * @brief It gets the id of a space
+  * @brief It gets the id of a object
   * @author Nicolas Victorino
   * 
-  * @param object a pointer to the space  
+  * @param object a pointer to the object  
   * @return the id of object
   */
 Id object_get_id(Object* object);
@@ -57,16 +57,16 @@ Id object_get_id(Object* object);
   * @param name a string with the name to store
   * @return OK, if everything goes well or ERROR if there was some mistake 
   */
-STATUS space_set_name(Object* space, char* name);
+STATUS object_set_name(Object* space, char* name);
 
 /**
   * @brief It prints the object information
   * @author Nicolas Victorino
   *
   * This fucntion shows the id and name of the object.
-  * @param object a pointer to the space
+  * @param object a pointer to the object
   * @return OK, if everything goes well or ERROR if there was some mistake
   */
-STATUS space_print(Object* object);
+STATUS object_print(Object* object);
 
 #endif
