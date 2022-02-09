@@ -14,6 +14,7 @@
 #include "command.h"
 #include "space.h"
 #include "types.h"
+#include "object.h"
 
 typedef struct _Game
 {
