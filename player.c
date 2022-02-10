@@ -111,7 +111,7 @@ STATUS player_get_location(Player * player, Id location) {
     return ERROR;
   }
   
-  (*player).location = location;
+  player->location = location;
 
   return OK;
 }
@@ -125,7 +125,7 @@ STATUS player_get_object(Player * player, Id object) {
     return ERROR;
   }
   
-  (*player).object = object;
+  player->object = object;
 
   return OK;
 }
