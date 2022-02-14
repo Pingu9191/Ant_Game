@@ -356,6 +356,11 @@ void game_command_back(Game *game)
   }
 }
 
+/*
+* Loads the spaces and the information of each from a given file
+* In case debug is being used it prints the information of each space that is loaded
+* If anything has gonne wrong while using the file, it while change the exit status from OK to ERROR
+*/
 STATUS game_load_spaces(Game *game, char *filename)
 {
   FILE *file = NULL;
@@ -380,6 +385,11 @@ STATUS game_load_spaces(Game *game, char *filename)
     return ERROR;
   }
 
+  /*
+  * While the loop reads information in the current line from the file: "hormiguero.dat", it divides that line in smaller tokens.
+  * Each token has a piece of information, in the following order:
+  * ID of the space, name, space at north, at east, at south, and at west.
+  */
   while (fgets(line, WORD_SIZE, file))
   {
     if (strncmp("#s:", line, 3) == 0)
@@ -396,10 +406,15 @@ STATUS game_load_spaces(Game *game, char *filename)
       south = atol(toks);
       toks = strtok(NULL, "|");
       west = atol(toks);
+    /*If debug is being used, it will print all the information from the current space that is being loaded*/
 #ifdef DEBUG
       printf("Leido: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
 #endif
+
+  /*Defines a private variable called "space" and saves a pointer to space with the given id in it*/
       space = space_create(id);
+
+  /*Error control, and in case everything is fine, it saves the information gotten in the prior loop in the newly created space*/
       if (space != NULL)
       {
         space_set_name(space, name);
@@ -412,7 +427,8 @@ STATUS game_load_spaces(Game *game, char *filename)
     }
   }
 
-  /*Error control*/
+  /*Error control, if it has given an error at any moment while using the file, ferror while make the if condition be true.
+   This will change the private status variable declared at the beggining of the function from OK to ERROR. */
   if (ferror(file))
   {
     status = ERROR;
