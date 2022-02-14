@@ -4,7 +4,7 @@
  * @file command.h
  * @author Profesores PPROG
  * @version 2.0
- * @date 29-11-2021
+ * @date 14-02-2022
  * @copyright GNU Public License
  */
 
@@ -12,19 +12,24 @@
 #define COMMAND_H
 
 #define N_CMDT 2
-#define N_CMD 5
+#define N_CMD 7
 
 typedef enum enum_CmdType {
   CMDS,
-  CMDL} T_CmdType;
+  CMDL
+  } T_CmdType;
 
 typedef enum enum_Command {
   NO_CMD = -1,
   UNKNOWN,
   EXIT,
   NEXT,
-  BACK} T_Command;
+  BACK,
+  RIGHT,
+  LEFT
+  } T_Command;
 
 T_Command command_get_user_input();
 
 #endif
+
