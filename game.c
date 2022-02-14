@@ -340,7 +340,7 @@ void game_command_back(Game *game)
     return;
   }
 
-/*Searches if there is a space at the south of the space of the player, and in case there is one, it moves the player to that space*/
+/*Searches if there is a space at the north of the space of the player, and in case there is one, it moves the player to that space*/
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
   {
     current_id = space_get_id(game->spaces[i]);
