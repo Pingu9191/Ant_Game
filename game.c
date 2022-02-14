@@ -5,7 +5,7 @@
  * @file game.c
  * @author Profesores PPROG
  * @version 2.0 
- * @date 29-11-2021 
+ * @date 14-02-2022 
  * @copyright GNU Public License
  */
 
@@ -24,6 +24,8 @@ void game_command_unknown(Game *game);
 void game_command_exit(Game *game);
 void game_command_next(Game *game);
 void game_command_back(Game *game);
+void game_command_right(Game *game);
+void game_command_left(Game *game);
 
 /**
    Game interface implementation
@@ -224,6 +226,14 @@ STATUS game_update(Game *game, T_Command cmd)
       game_command_back(game);
       break;
 
+    case RIGHT:
+      game_command_right(game);
+      break;
+
+    case LEFT:
+      game_command_left(game);
+      break;
+
     default:
       break;
   }
@@ -303,7 +313,7 @@ void game_command_next(Game *game)
     return;
   }
 
-  /*Searches if there is a space at the south of the space of the player, and in case there is one, it moves the player to that space*/
+  /*Searches if there is a space south of the space of the player, and in case there is one, it moves the player to that space*/
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
   {
     current_id = space_get_id(game->spaces[i]);
@@ -320,7 +330,7 @@ void game_command_next(Game *game)
 }
 
 /*
-* Command that moves the player one space position to thes north, in case there is one.
+* Command that moves the player one space position to the north, in case there is one.
 * If not it doesnt move the player
 */
 void game_command_back(Game *game)
@@ -340,13 +350,87 @@ void game_command_back(Game *game)
     return;
   }
 
-/*Searches if there is a space at the north of the space of the player, and in case there is one, it moves the player to that space*/
+/*Searches if there is a space north of the space of the player, and in case there is one, it moves the player to that space*/
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
   {
     current_id = space_get_id(game->spaces[i]);
     if (current_id == space_id)
     {
       current_id = space_get_north(game->spaces[i]);
+      if (current_id != NO_ID)
+      {
+        game_set_player_location(game, current_id);
+      }
+      return;
+    }
+  }
+}
+
+/*
+* Command that moves the player one space position to the east, in case there is one.
+* If not it doesnt move the player
+*/
+void game_command_right(Game *game)
+{
+
+    /*Initializes the private variables current_id and space_id*/
+  int i = 0;
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  /*Saves the current location of the player in space_id*/
+  space_id = game_get_player_location(game);
+
+  /*Error control. Checks if the id of the space of the player is correctly saved*/
+  if (NO_ID == space_id)
+  {
+    return;
+  }
+
+/*Searches if there is a space east of the space of the player, and in case there is one, it moves the player to that space*/
+  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
+  {
+    current_id = space_get_id(game->spaces[i]);
+    if (current_id == space_id)
+    {
+      current_id = space_get_east(game->spaces[i]);
+      if (current_id != NO_ID)
+      {
+        game_set_player_location(game, current_id);
+      }
+      return;
+    }
+  }
+}
+
+/*
+* Command that moves the player one space position to the west, in case there is one.
+* If not it doesnt move the player
+*/
+void game_command_left(Game *game)
+{
+
+    /*Initializes the private variables current_id and space_id*/
+  int i = 0;
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  /*Saves the current location of the player in space_id*/
+  space_id = game_get_player_location(game);
+
+  /*Error control. Checks if the id of the space of the player is correctly saved*/
+  if (NO_ID == space_id)
+  {
+    return;
+  }
+
+/*Searches if there is a space west of the space of the player, and in case there is one, it moves the player to that space*/
+  for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
+  {
+    current_id = space_get_id(game->spaces[i]);
+    if (current_id == space_id)
+    {
+      current_id = space_get_west(game->spaces[i]);
       if (current_id != NO_ID)
       {
         game_set_player_location(game, current_id);
