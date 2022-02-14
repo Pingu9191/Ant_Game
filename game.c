@@ -14,9 +14,6 @@
 #include <string.h>
 #include "game.h"
 
-/**
-   Private functions
-*/
 STATUS game_load_spaces(Game *game, char *filename);
 STATUS game_add_space(Game *game, Space *space);
 Id game_get_space_id_at(Game *game, int position);
@@ -31,8 +28,7 @@ void game_command_back(Game *game);
 /**
    Game interface implementation
 */
-
-STATUS game_create(Game *game) // Crea el numero de spacios para el juego y los inicializa
+STATUS game_create(Game *game)
 {
   int i;
 
@@ -48,12 +44,17 @@ STATUS game_create(Game *game) // Crea el numero de spacios para el juego y los 
   return OK;
 }
 
-STATUS game_create_from_file(Game *game, char *filename) // Crea el juego desde un file, con errores
+ /**
+ * Creates a new game from and loads the spaces from a file
+ * Returns status expressions ERROR in case something goes wrong or OK if succesful
+ */
+STATUS game_create_from_file(Game *game, char *filename)
 {
-
+  /*Error control and creates the game*/
   if (game_create(game) == ERROR)
     return ERROR;
 
+/*Error control and laod the spaces into the game from a file*/
   if (game_load_spaces(game, filename) == ERROR)
     return ERROR;
 
@@ -64,7 +65,10 @@ STATUS game_create_from_file(Game *game, char *filename) // Crea el juego desde 
   return OK;
 }
 
-STATUS game_destroy(Game *game) // Pone a NULL todos los espacios
+/*
+* Destroys the game and all its spaces, returning OK when done
+*/
+STATUS game_destroy(Game *game)
 {
   int i = 0;
 
@@ -76,20 +80,26 @@ STATUS game_destroy(Game *game) // Pone a NULL todos los espacios
   return OK;
 }
 
-STATUS game_add_space(Game *game, Space *space) // Crea un spacio en el ultimo hueco con errores
+/*
+*Adds a space to the game in the first available space position, and if there is none it returns ERROR
+*/
+STATUS game_add_space(Game *game, Space *space)
 {
   int i = 0;
 
+  /*Error control*/
   if (space == NULL)
   {
     return ERROR;
   }
 
+  /*Searches the first space position available*/
   while (i < MAX_SPACES && game->spaces[i] != NULL)
   {
     i++;
   }
 
+  /*Error control (if there is no space position left)*/
   if (i >= MAX_SPACES)
   {
     return ERROR;
@@ -100,9 +110,13 @@ STATUS game_add_space(Game *game, Space *space) // Crea un spacio en el ultimo h
   return OK;
 }
 
-Id game_get_space_id_at(Game *game, int position) // dice la id del spacio mandado
+  /*
+  * Gets the id of a space, searching by its position
+  */
+Id game_get_space_id_at(Game *game, int position)
 {
 
+  /*Error control*/
   if (position < 0 || position >= MAX_SPACES)
   {
     return NO_ID;
@@ -111,10 +125,14 @@ Id game_get_space_id_at(Game *game, int position) // dice la id del spacio manda
   return space_get_id(game->spaces[position]);
 }
 
-Space *game_get_space(Game *game, Id id) // dice el spacio de la id mandada ***
+/*
+* Returns the space that coincides with the given id
+*/
+Space *game_get_space(Game *game, Id id)
 {
   int i = 0;
 
+  /*Error control*/
   if (id == NO_ID)
   {
     return NULL;
@@ -131,20 +149,30 @@ Space *game_get_space(Game *game, Id id) // dice el spacio de la id mandada ***
   return NULL;
 }
 
-STATUS game_set_player_location(Game *game, Id id) // Da al game la location de la id al player
+/*
+*Moves the player to the space of the given id 
+*/
+STATUS game_set_player_location(Game *game, Id id)
 {
 
+  /*Error control*/
   if (id == NO_ID)
   {
     return ERROR;
   }
 
   game->player_location = id;
-  return OK;
 }
 
-STATUS game_set_object_location(Game *game, Id id) // Da al game la location de la id al object
+/*
+* Places an object in the space of the given id
+*/
+STATUS game_set_object_location(Game *game, Id id)
 {
+
+  int i = 0;
+
+  /*Error control*/
   if (id == NO_ID)
   {
     return ERROR;
@@ -155,17 +183,26 @@ STATUS game_set_object_location(Game *game, Id id) // Da al game la location de 
   return OK;
 }
 
-Id game_get_player_location(Game *game) // Da la id del player location
+/*
+* Gets the location of the player
+*/
+Id game_get_player_location(Game *game)
 {
   return game->player_location;
 }
 
-Id game_get_object_location(Game *game) // Da la id del object location
+/*
+* Gets the location of an object
+*/
+Id game_get_object_location(Game *game)
 {
   return game->object_location;
 }
 
-STATUS game_update(Game *game, T_Command cmd) // ???
+/*
+* Gets a command and depending of which one it is, it executes one of the following functions
+*/
+STATUS game_update(Game *game, T_Command cmd)
 {
   game->last_cmd = cmd;
   
@@ -194,28 +231,41 @@ STATUS game_update(Game *game, T_Command cmd) // ???
   return OK;
 }
 
+/*
+* Gets the last command that has been used
+*/
 T_Command game_get_last_command(Game *game)
 {
   return game->last_cmd;
 }
 
-void game_print_data(Game *game) // Imprime toda la ingo necesaria
+/*
+* Prints all the information in the struct game (Spaces, oject location, player location)
+*/
+void game_print_data(Game *game)
 {
   int i = 0;
 
   printf("\n\n-------------\n\n");
 
+  /*1. Prints the spaces and the information of each one*/
   printf("=> Spaces: \n");
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
   {
     space_print(game->spaces[i]);
   }
 
+  /*2. Printf the object loaction*/
   printf("=> Object location: %d\n", (int)game->object_location);
+
+  /*3. Printf the player loaction*/
   printf("=> Player location: %d\n", (int)game->player_location);
 }
 
-BOOL game_is_over(Game *game) // Fin del juego
+/*
+* Finishes the game
+*/
+BOOL game_is_over(Game *game)
 {
   return FALSE;
 }
@@ -225,6 +275,7 @@ BOOL game_is_over(Game *game) // Fin del juego
 */
 void game_command_unknown(Game *game)
 {
+
 }
 
 void game_command_exit(Game *game)
@@ -232,25 +283,34 @@ void game_command_exit(Game *game)
   
 }
 
-void game_command_next(Game *game) // Para moverse al sur
+/*
+* Command that moves the player one space position to thes south, in case there is one.
+* If not it doesnt move the player
+*/
+void game_command_next(Game *game)
 {
+  /*Initializes the private variables current_id and space_id*/
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
 
-  space_id = game_get_player_location(game); // space_id es la id de la location del player
+  /*Saves the current location of the player in space_id*/
+  space_id = game_get_player_location(game);
+
+  /*Error control. Checks if the id of the space of the player is correctly saved*/
   if (space_id == NO_ID)
   {
     return;
   }
 
+  /*Searches if there is a space at the south of the space of the player, and in case there is one, it moves the player to that space*/
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
   {
     current_id = space_get_id(game->spaces[i]);
     if (current_id == space_id)
     {
       current_id = space_get_south(game->spaces[i]);
-      if (current_id != NO_ID) // Si hay spacio al sur, se mueve
+      if (current_id != NO_ID)
       {
         game_set_player_location(game, current_id);
       }
@@ -259,19 +319,28 @@ void game_command_next(Game *game) // Para moverse al sur
   }
 }
 
-void game_command_back(Game *game) // Para moverse al norte
+/*
+* Command that moves the player one space position to thes north, in case there is one.
+* If not it doesnt move the player
+*/
+void game_command_back(Game *game)
 {
+
+    /*Initializes the private variables current_id and space_id*/
   int i = 0;
   Id current_id = NO_ID;
   Id space_id = NO_ID;
 
+  /*Saves the current location of the player in space_id*/
   space_id = game_get_player_location(game);
 
+  /*Error control. Checks if the id of the space of the player is correctly saved*/
   if (NO_ID == space_id)
   {
     return;
   }
 
+/*Searches if there is a space at the south of the space of the player, and in case there is one, it moves the player to that space*/
   for (i = 0; i < MAX_SPACES && game->spaces[i] != NULL; i++)
   {
     current_id = space_get_id(game->spaces[i]);
@@ -297,12 +366,15 @@ STATUS game_load_spaces(Game *game, char *filename)
   Space *space = NULL;
   STATUS status = OK;
 
+  /*Error control*/
   if (!filename)
   {
     return ERROR;
   }
 
   file = fopen(filename, "r");
+
+  /*Error control*/
   if (file == NULL)
   {
     return ERROR;
@@ -340,6 +412,7 @@ STATUS game_load_spaces(Game *game, char *filename)
     }
   }
 
+  /*Error control*/
   if (ferror(file))
   {
     status = ERROR;
