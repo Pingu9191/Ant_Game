@@ -4,7 +4,7 @@
  * @file command.c
  * @author Profesores PPROG
  * @version 2.0 
- * @date 29-11-2021 
+ * @date 14-02-2022 
  * @copyright GNU Public License
  */
 
@@ -19,7 +19,9 @@ char *cmd_to_str[N_CMD]
 			{"", "Unknown"},
 			{"e", "Exit"},
 			{"n", "Next"},
-			{"b", "Back"}};
+			{"b", "Back"},
+      {"r", "Right"},
+      {"l", "Left"}};
 
 T_Command command_get_user_input()
 {
