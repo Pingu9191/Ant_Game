@@ -47,7 +47,7 @@ STATUS game_create(Game *game)
 }
 
  /**
- * Creates a new game from and loads the spaces from a file
+ * Creates a new game and loads the spaces from a file
  * Returns status expressions ERROR in case something goes wrong or OK if succesful
  */
 STATUS game_create_from_file(Game *game, char *filename)
