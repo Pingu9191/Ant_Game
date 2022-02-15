@@ -25,7 +25,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  BOOL object;              /*!< Whether the space has an object or not */
+  Id object;              /*!< Id of the object located in the space */
 };
 
 /** space_create allocates memory for a new space
@@ -50,7 +50,7 @@ Space* space_create(Id id) { // Crea space a traves de una id
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-  newSpace->object = FALSE;
+  newSpace->object = NO_ID;
 
   return newSpace;
 }
@@ -170,20 +170,21 @@ Id space_get_west(Space* space) {
   return space->west;
 }
 
-/** It sets whether the space has an object or not
+/** It sets the id of an object in the given space
   */
-STATUS space_set_object(Space* space, BOOL value) {
+STATUS space_set_object(Space* space, Id id) {
   if (!space) {
     return ERROR;
   }
-  space->object = value;
+  space->object = id;
   return OK;
 }
-/** It gets whether the space has an object or not
+/** It gets the id of the object in the given space
   */
-BOOL space_get_object(Space* space) {
-  if (!space) {
-    return FALSE;
+Id space_get_object (Space *space)
+{
+  if (!space || space->object == NO_ID) {
+    return NO_ID;
   }
   return space->object;
 }
@@ -236,4 +237,6 @@ STATUS space_print(Space* space) {
 
   return OK;
 }
+
+
 
