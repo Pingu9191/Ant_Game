@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "game.h"
+#include "object.h"
+#include "player.h"
 
 STATUS game_load_spaces(Game *game, char *filename);
 STATUS game_add_space(Game *game, Space *space);
@@ -26,6 +28,8 @@ void game_command_next(Game *game);
 void game_command_back(Game *game);
 void game_command_right(Game *game);
 void game_command_left(Game *game);
+STATUS game_command_take(Game *game, Player *player);
+STATUS game_command_drop(Game *game, Player *player);
 
 /**
    Game interface implementation
@@ -438,6 +442,38 @@ void game_command_left(Game *game)
       return;
     }
   }
+}
+
+/*
+* Command that make the player take the object.
+* If the player and object aren't in the same room returns ERROR.
+*/
+STATUS game_command_take(Game *game, Player *player) 
+{
+  // If player location and object location didnt match returns ERROR
+  if (game_get_object_location(game) != game_get_player_location(game))
+    return ERROR;
+
+  player_get_object(player, FIRST_OBJECT);
+  game_set_object_location(game, NO_ID);
+
+  return OK;
+}
+
+/*
+* Command that make the player drop the object on the space.
+* If player aint object, returns FALSE
+*/
+STATUS game_command_drop(Game *game, Player *player)
+{
+  // If object id isnt NO_ID returns error
+  if (game_get_object_location(game) != NO_ID)
+    return ERROR;
+
+  game_set_object_location(game, game_get_player_location(game));
+  player_get_object(player, NO_ID);
+
+  return OK;
 }
 
 /*
