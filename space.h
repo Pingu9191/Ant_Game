@@ -15,6 +15,10 @@
 
 typedef struct _Space Space;
 
+ /**
+ * Constant used in space.c. 
+ * MAX_SPACES defines the maximum spaces available and FIRST_SPACE defines the Id of the first space 
+ */
 #define MAX_SPACES 100
 #define FIRST_SPACE 1
 
@@ -141,23 +145,23 @@ STATUS space_set_west(Space* space, Id id);
 Id space_get_west(Space* space);
 
 /**
-  * @brief It sets whether the space has an object or not
-  * @author Profesores PPROG
+  * @brief It sets the id of an object in a given space
+  * @author Nicolas Victorino
   *
-  * @param space a pointer to the space
-  * @param value a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
-  * @return OK, if everything goes well or ERROR if there was some mistake 
+  * This function sets the id of an object in a given space
+  * @param space a pointer to the space, @param id id of the object we want to save in the space
+  * @return OK, if everything goes well or ERROR if something went wrong during the execution
   */
-STATUS space_set_object(Space* space, BOOL value);
+STATUS space_set_object (Space *space, Id id);
 
 /**
-  * @brief It gets whether the space has an object or not
-  * @author Profesores PPROG
+  * @brief It gets the id of an object in a given space
+  * @author Nicolas Victorino
   *
   * @param space a pointer to the space
-  * @return a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
+  * @return In case the space given or the id of the object in the space is NULL, it returns NO_ID. If not it returns the id of the object in the space
   */
-BOOL space_get_object(Space* space);
+Id space_get_objet (Space *space);
 
 /**
   * @brief It prints the space information
