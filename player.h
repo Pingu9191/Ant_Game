@@ -13,7 +13,12 @@
 
 #include "types.h"
 
-typedef struct _Player Player;
+typedef struct _Player {
+  Id id;                    /*!< Id number of the player, it must be unique */
+  char name[WORD_SIZE + 1]; /*!< Name of the player */
+  Id location;              /*!< Id number of the location where the player is*/
+  Id object;                /*!< Id number of the object the player has*/
+}Player;
 
 #define MAX_PLAYERS 100
 #define FIRST_PLAYER 1
@@ -76,7 +81,16 @@ const char * player_get_name(Player* player);
   * @param location the id of the location
   * @return OK, if everything goes well or ERROR if there was some mistake 
   */
-STATUS player_get_location(Player * player, Id location);
+STATUS player_set_location(Player * player, Id location);
+
+/**
+  * @brief It gets the id of a player location
+  * @author Ignacio Nunnez
+  * 
+  * @param player a pointer to the player
+  * @return OK, if everything goes well or ERROR if there was some mistake 
+  */
+Id player_get_location(Player * player);
 
 /**
   * @brief It sets the id of a player object
@@ -86,7 +100,16 @@ STATUS player_get_location(Player * player, Id location);
   * @param object the id of the object
   * @return OK, if everything goes well or ERROR if there was some mistake 
   */
-STATUS player_get_object(Player * player, Id object);
+STATUS player_set_object(Player * player, Id object);
+
+/**
+  * @brief It gets the id of a player object
+  * @author Ignacio Nunnez
+  * 
+  * @param player a pointer to the player
+  * @return OK, if everything goes well or ERROR if there was some mistake 
+  */
+Id player_get_object(Player * player);
 
 /**
   * @brief It prints the player information
