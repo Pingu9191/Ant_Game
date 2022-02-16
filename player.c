@@ -7,6 +7,15 @@
 * @date 08/02/2022
 * @copyright GNU Public License
 */
+/**
+* @brief It implements player module
+*
+* @file player.c
+* @author Nicolas Victorino && Ignacio Nunnez
+* @version 1.0
+* @date 08/02/2022
+* @copyright GNU Public License
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,12 +28,12 @@
  * This struct stores all the information of a player.
  */
 
-struct _Player {
-  Id id;                    /*!< Id number of the player, it must be unique */
-  char name[WORD_SIZE + 1]; /*!< Name of the player */
-  Id location;              /*!< Id number of the location where the player is*/
-  Id object;                /*!< Id number of the object the player has*/
-};
+//struct _Player {
+//  Id id;                    /*!< Id number of the player, it must be unique */
+//  char name[WORD_SIZE + 1]; /*!< Name of the player */
+//  Id location;              /*!< Id number of the location where the player is*/
+//  Id object;                /*!< Id number of the object the player has*/
+//};
 
 /** player_create allocates memory for a new player
   *  and initializes its members
@@ -104,7 +113,7 @@ const char * player_get_name(Player* player) {
 }
 /** It gets the id of a player location
   */
-STATUS player_get_location(Player * player, Id location) {
+STATUS player_set_location(Player * player, Id location) {
 
   /* Error control */
   if (!player || !location) {
@@ -116,9 +125,21 @@ STATUS player_get_location(Player * player, Id location) {
   return OK;
 }
 
+/** It returns the location of a player
+  */
+Id player_get_location(Player* player) {
+
+  /* Error control */
+  if (!player) {
+    return ERROR;
+  }
+
+  return player->location;
+}
+
 /** It gets the id of a player object
   */
-STATUS player_get_object(Player * player, Id object) {
+STATUS player_set_object(Player * player, Id object) {
 
   /* Error control */
   if (!player || !object) {
@@ -128,6 +149,18 @@ STATUS player_get_object(Player * player, Id object) {
   player->object = object;
 
   return OK;
+}
+
+/** It returns the object of a player
+  */
+Id player_get_object(Player* player) {
+
+  /* Error control */
+  if (!player) {
+    return ERROR;
+  }
+
+  return player->object;
 }
 
 /** It prints the player information
