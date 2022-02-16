@@ -14,11 +14,13 @@
 #include "command.h"
 #include "space.h"
 #include "types.h"
+#include "player.h"
+#include "object.h"
 
 typedef struct _Game
 {
-  Id player_location;
-  Id object_location;
+  Player *player;//Id player_location;
+  Object *object;//Id object_location;
   Space *spaces[MAX_SPACES];
   T_Command last_cmd;
 } Game;
@@ -107,6 +109,7 @@ Id game_get_player_location(Game *game);
   * @author Profesores PPROG
   *
   * @param game a pointer to the game
+  * @return NO_ID if theres no object located
   */
 Id game_get_object_location(Game *game);
 
