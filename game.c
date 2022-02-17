@@ -19,6 +19,8 @@
 
 STATUS game_load_spaces(Game *game, char *filename);
 STATUS game_add_space(Game *game, Space *space);
+STATUS game_add_player(Game *game, Player *player);
+STATUS game_add_object(Game *game, Object *object);
 Id game_get_space_id_at(Game *game, int position);
 STATUS game_set_player_location(Game *game, Id id);
 STATUS game_set_object_location(Game *game, Id id);
@@ -118,6 +120,34 @@ STATUS game_add_space(Game *game, Space *space)
   game->spaces[i] = space;
 
   return OK;
+}
+
+/*
+* Adds a given object to the game
+*/
+STATUS game_add_object(Game *game, Object *object) 
+{
+  /*Error control*/
+  if (object == NULL)
+    {
+      return ERROR;
+    }
+
+      game->object = object;
+}
+
+/*
+* Adds a given player to the game
+*/
+STATUS game_add_player(Game *game, Player *player) 
+{
+  /*Error control*/
+  if (player == NULL)
+    {
+      return ERROR;
+    }
+
+      game->player = player;
 }
 
   /*
