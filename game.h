@@ -36,18 +36,6 @@ typedef struct _Game
 STATUS game_create(Game *game);
 
 /**
-  * @brief Creates the game from a file
-  * @author Profesores PPROG
-  *
-  * Sets the game with the info of the filename
-  * @param game a pointer to the game
-  * @param filename exact name of the file 
-  * @return ERROR if no game or no filename
-  * 
-  */
-STATUS game_create_from_file(Game *game, char *filename);
-
-/**
   * @brief Updates the game
   * @author Profesores PPROG
   *
