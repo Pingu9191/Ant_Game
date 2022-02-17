@@ -16,12 +16,14 @@
 
 char *cmd_to_str[N_CMD]
 [N_CMDT] = {{"", "No command"},
-			{"", "Unknown"},
-			{"e", "Exit"},
-			{"n", "Next"},
-			{"b", "Back"},
+      {"", "Unknown"},
+      {"e", "Exit"},
+      {"n", "Next"},
+      {"b", "Back"},
       {"r", "Right"},
-      {"l", "Left"}};
+      {"l", "Left"},
+      {"t", "Take"},
+      {"d", "Drop"}};
 
 T_Command command_get_user_input()
 {
