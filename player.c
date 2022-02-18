@@ -7,15 +7,6 @@
 * @date 08/02/2022
 * @copyright GNU Public License
 */
-/**
-* @brief It implements player module
-*
-* @file player.c
-* @author Nicolas Victorino && Ignacio Nunnez
-* @version 1.0
-* @date 08/02/2022
-* @copyright GNU Public License
-*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,12 +19,12 @@
  * This struct stores all the information of a player.
  */
 
-//struct _Player {
-//  Id id;                    /*!< Id number of the player, it must be unique */
-//  char name[WORD_SIZE + 1]; /*!< Name of the player */
-//  Id location;              /*!< Id number of the location where the player is*/
-//  Id object;                /*!< Id number of the object the player has*/
-//};
+struct _Player {
+  Id id;                    /*!< Id number of the player, it must be unique */
+  char name[WORD_SIZE + 1]; /*!< Name of the player */
+  Id location;              /*!< Id number of the location where the player is*/
+  Id object;                /*!< Id number of the object the player has*/
+};
 
 /** player_create allocates memory for a new player
   *  and initializes its members

@@ -17,7 +17,6 @@
 #include "player.h"
 #include "space.h"
 
-STATUS game_load_spaces(Game *game, char *filename);
 STATUS game_add_space(Game *game, Space *space);
 STATUS game_add_player(Game *game, Player *player);
 STATUS game_add_object(Game *game, Object *object);
@@ -49,27 +48,6 @@ STATUS game_create(Game *game)
   game->player = NULL;
   game->object = NULL;
   game->last_cmd = NO_CMD;
-
-  return OK;
-}
-
- /**
- * Creates a new game and loads the spaces from a file
- * Returns status expressions ERROR in case something goes wrong or OK if succesful
- */
-STATUS game_create_from_file(Game *game, char *filename)
-{
-  /*Error control and creates the game*/
-  if (game_create(game) == ERROR)
-    return ERROR;
-
-/*Error control and laod the spaces into the game from a file*/
-  if (game_load_spaces(game, filename) == ERROR)
-    return ERROR;
-
-  /* The player and the object are located in the first space */
-  game_set_player_location(game, game_get_space_id_at(game, 0));
-  game_set_object_location(game, game_get_space_id_at(game, 0));
 
   return OK;
 }
@@ -133,7 +111,9 @@ STATUS game_add_object(Game *game, Object *object)
       return ERROR;
     }
 
-      game->object = object;
+  game->object = object;
+
+  return OK;    
 }
 
 /*
@@ -147,7 +127,9 @@ STATUS game_add_player(Game *game, Player *player)
       return ERROR;
     }
 
-      game->player = player;
+  game->player = player;
+
+  return OK;
 }
 
   /*
@@ -201,7 +183,9 @@ STATUS game_set_player_location(Game *game, Id id)
     return ERROR;
   }
 
-  game->player->location = id;
+  game_set_object_location(game, id);
+
+  return OK;
 }
 
 /*
@@ -210,15 +194,13 @@ STATUS game_set_player_location(Game *game, Id id)
 STATUS game_set_object_location(Game *game, Id id)
 {
 
-  int i = 0;
-
   /*Error control*/
   if (id == NO_ID)
   {
     return ERROR;
   }
 
-  game->object->id = id;
+  space_set_object(game_get_space(game, id), object_get_id(game->object));
 
   return OK;
 }
@@ -228,7 +210,7 @@ STATUS game_set_object_location(Game *game, Id id)
 */
 Id game_get_player_location(Game *game)
 {
-  return game->player->location;
+  return player_get_location(game->player);
 }
 
 /*
@@ -240,8 +222,8 @@ Id game_get_object_location(Game *game)
 
   /*Goes space from space if there's space with object*/
   for (i=0 ; i < MAX_SPACES ; i++) {
-    if (game->spaces[i]->object != NO_ID) {
-      return game->spaces[i]->object;
+    if (space_get_object(game->spaces[i]) != NO_ID) {
+      return space_get_id(game->spaces[i]);
     }
   }
   return NO_ID;
@@ -315,7 +297,7 @@ void game_print_data(Game *game)
   printf("=> Object location: %d\n", (int)game_get_object_location(game)); // CAMBIO DRASTICO
 
   /*3. Printf the player loaction*/
-  printf("=> Player location: %d\n", (int)game->player->location);
+  printf("=> Player location: %d\n", (int)game_get_player_location(game));
 }
 
 /*
@@ -531,85 +513,3 @@ STATUS game_command_drop(Game *game)
   return OK;
 }
 
-/*
-* Loads the spaces and the information of each from a given file
-* In case debug is being used it prints the information of each space that is loaded
-* If anything has gonne wrong while using the file, it while change the exit status from OK to ERROR
-*/
-STATUS game_load_spaces(Game *game, char *filename)
-{
-  FILE *file = NULL;
-  char line[WORD_SIZE] = "";
-  char name[WORD_SIZE] = "";
-  char *toks = NULL;
-  Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
-  Space *space = NULL;
-  STATUS status = OK;
-
-  /*Error control*/
-  if (!filename)
-  {
-    return ERROR;
-  }
-
-  file = fopen(filename, "r");
-
-  /*Error control*/
-  if (file == NULL)
-  {
-    return ERROR;
-  }
-
-  /*
-  * While the loop reads information in the current line from the file: "hormiguero.dat", it divides that line in smaller tokens.
-  * Each token has a piece of information, in the following order:
-  * ID of the space, name, space at north, at east, at south, and at west.
-  */
-  while (fgets(line, WORD_SIZE, file))
-  {
-    if (strncmp("#s:", line, 3) == 0)
-    {
-      toks = strtok(line + 3, "|");
-      id = atol(toks);
-      toks = strtok(NULL, "|");
-      strcpy(name, toks);
-      toks = strtok(NULL, "|");
-      north = atol(toks);
-      toks = strtok(NULL, "|");
-      east = atol(toks);
-      toks = strtok(NULL, "|");
-      south = atol(toks);
-      toks = strtok(NULL, "|");
-      west = atol(toks);
-    /*If debug is being used, it will print all the information from the current space that is being loaded*/
-#ifdef DEBUG
-      printf("Leido: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
-#endif
-
-  /*Defines a private variable called "space" and saves a pointer to space with the given id in it*/
-      space = space_create(id);
-
-  /*Error control, and in case everything is fine, it saves the information gotten in the prior loop in the newly created space*/
-      if (space != NULL)
-      {
-        space_set_name(space, name);
-        space_set_north(space, north);
-        space_set_east(space, east);
-        space_set_south(space, south);
-        space_set_west(space, west);
-        game_add_space(game, space);
-      }
-    }
-  }
-
-  /*Error control, if it has given an error at any moment while using the file, ferror while make the if condition be true.
-   This will change the private status variable declared at the beggining of the function from OK to ERROR. */
-  if (ferror(file))
-  {
-    status = ERROR;
-  }
-
-  fclose(file);
-
-  return status;
-}

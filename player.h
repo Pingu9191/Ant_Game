@@ -13,12 +13,7 @@
 
 #include "types.h"
 
-typedef struct _Player {
-  Id id;                    /*!< Id number of the player, it must be unique */
-  char name[WORD_SIZE + 1]; /*!< Name of the player */
-  Id location;              /*!< Id number of the location where the player is*/
-  Id object;                /*!< Id number of the object the player has*/
-}Player;
+typedef struct _Player Player;
 
 #define MAX_PLAYERS 100
 #define FIRST_PLAYER 1

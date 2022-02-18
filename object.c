@@ -99,8 +99,7 @@ const char * object_get_name(Object* object) {
 /** It prints the object information
   */
 STATUS object_print(Object* object) {
-  Id idaux = NO_ID;
-
+  
   /* Error Control */
   if (!object) {
     return ERROR;

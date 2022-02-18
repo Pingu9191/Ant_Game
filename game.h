@@ -108,4 +108,12 @@ Id game_get_object_location(Game *game);
   * @param game a pointer to the game
   */
 T_Command game_get_last_command(Game *game);
+
+STATUS game_add_space(Game *game, Space *space);
+STATUS game_add_player(Game *game, Player *player);
+STATUS game_add_object(Game *game, Object *object);
+Id game_get_space_id_at(Game *game, int position);
+STATUS game_set_player_location(Game *game, Id id);
+STATUS game_set_object_location(Game *game, Id id);
+
 #endif

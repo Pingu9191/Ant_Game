@@ -182,7 +182,7 @@ STATUS game_load_players(Game *game, char *filename)
 * In case debug is being used it prints the information of the loaded object
 * If anything has gonne wrong while using the file, it will change the exit status from OK to ERROR
 */
-STATUS game_load_object(Game *game, char *filename) 
+STATUS game_load_objects(Game *game, char *filename) 
 {
  FILE *file = NULL;
   char line[WORD_SIZE] = "";
@@ -230,7 +230,7 @@ STATUS game_load_object(Game *game, char *filename)
   /*Error control, and in case everything is fine, it saves the information gotten in the prior loop in the newly created object*/
       if (object != NULL)
       {
-        player_set_name(object, name);
+        object_set_name(object, name);
         game_add_object(game, object); 
       }
     }

@@ -13,11 +13,6 @@
 #include <string.h>
 #include "space.h"
 
-/**
- * @brief Space
- *
- * This struct stores all the information of a space.
- */
 struct _Space {
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
@@ -237,6 +232,3 @@ STATUS space_print(Space* space) {
 
   return OK;
 }
-
-
-

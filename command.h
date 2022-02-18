@@ -34,4 +34,3 @@ typedef enum enum_Command {
 T_Command command_get_user_input();
 
 #endif
-
