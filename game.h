@@ -109,11 +109,58 @@ Id game_get_object_location(Game *game);
   */
 T_Command game_get_last_command(Game *game);
 
+/**
+  * @brief adds a space to the game from game_load_space
+  * @author Nicolas Victorino
+  *
+  * @param game a pointer to the game, @param space a pointer to the space
+  * @return OK if it doesnt detect any error, in case it does it returns ERROR
+  */
 STATUS game_add_space(Game *game, Space *space);
+
+/**
+  * @brief adds a player to the game from game_load_player
+  * @author Nicolas Victorino
+  *
+  * @param game a pointer to the game, @param player a pointer to the space
+  * @return OK if it doesnt detect any error, in case it does it returns ERROR
+  */
 STATUS game_add_player(Game *game, Player *player);
+
+/**
+  * @brief adds a object to the game from game_load_object
+  * @author Nicolas Victorino
+  *
+  * @param game a pointer to the game, @param object a pointer to the space
+  * @return OK if it doesnt detect any error, in case it does it returns ERROR
+  */
 STATUS game_add_object(Game *game, Object *object);
+
+/**
+  * @brief Gets the id of a space, searching by its position
+  * @author Profesores PPROG
+  *
+  * @param game a pointer to the game, @param position position of the space
+  * @return NO_ID if the position value is not valid
+  */
 Id game_get_space_id_at(Game *game, int position);
+
+/**
+  * @brief sets the position of the player to a given space
+  * @author Ignacio Nuñez
+  *
+  * @param game a pointer to the game, @param id identifier of the object where you want to set the player
+  * @return OK if it doesnt detect any error, in case it does it returns ERROR
+  */
 STATUS game_set_player_location(Game *game, Id id);
+
+/**
+  * @brief sets the position of the object to a given space
+  * @author Ignacio Nuñez
+  *
+  * @param game a pointer to the game, @param id identifier of the object where you want to set the object
+  * @return OK if it doesnt detect any error, in case it does it returns ERROR
+  */
 STATUS game_set_object_location(Game *game, Id id);
 
 #endif
