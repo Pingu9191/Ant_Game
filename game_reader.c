@@ -245,7 +245,6 @@ STATUS game_load_objects(Game *game, char *filename)
   return status;
 }
 
-//////Temporal movido desde game.c
  /**
  * Creates a new game and loads the spaces from a file
  * Returns status expressions ERROR in case something goes wrong or OK if succesful
