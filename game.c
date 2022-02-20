@@ -260,6 +260,12 @@ STATUS game_update(Game *game, T_Command cmd)
     case LEFT:
       game_command_left(game);
       break;
+    case TAKE:
+      game_command_take(game);
+      break;
+    case DROP:
+      game_command_drop(game);
+      break;  
 
     default:
       break;
@@ -511,4 +517,3 @@ STATUS game_command_drop(Game *game)
 
   return OK;
 }
-
