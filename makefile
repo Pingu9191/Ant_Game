@@ -1,32 +1,33 @@
 # Declaraciones de macros.
 
-CC="gcc -c -Wall"
-lib='command.h game_reader.h game.h graphic_engine.h libscreen.h object.h player.h space.h types.h'
+CC = gcc
+CFLAGS = -c -g -Wall
+
+# Bibliotecas necesarias: command.h game_reader.h graphic_engine.h game.h libscreen.a libscreen.h object.h player.h space.h types.h
 
 # Declaraciones de reglas.
 
 all: antgame clean
 
 antgame: game.o game_reader.o command.o graphic_engine.o object.o player.o space.o libscreen.a game_loop.o
-	gcc -g -Wall -o antgame $^
-command.o: command.c command.h
-	gcc -c -g -Wall command.c
-game.o: game.c game.h
-	gcc -c -g -Wall game.c
-game_reader.o: game_reader.c game_reader.h
-	gcc -c -g -Wall game_reader.c
-graphic_engine.o: graphic_engine.c graphic_engine.h libscreen.h
-	gcc -c -g -Wall graphic_engine.c
-object.o: object.c object.h
-	gcc -c -g -Wall object.c
-player.o: player.c player.h
-	gcc -c -g -Wall player.c
-space.o: space.c space.h
-	gcc -c -g -Wall space.c
+	$(CC) -g -Wall -o antgame $^
+command.o: command.c
+	$(CC) $(CFLAGS) $^
+game.o: game.c
+	$(CC) $(CFLAGS) $^
+game_reader.o: game_reader.c
+	$(CC) $(CFLAGS) $^
+graphic_engine.o: graphic_engine.c
+	$(CC) $(CFLAGS) $^
+object.o: object.c
+	$(CC) $(CFLAGS) $^
+player.o: player.c
+	$(CC) $(CFLAGS) $^
+space.o: space.c
+	$(CC) $(CFLAGS) $^
 game_loop.o: game_loop.c
-	gcc -c -g -Wall game_loop.c
+	$(CC) $(CFLAGS) $^
 
 clean:
 	echo "cleaning..."
 	rm -rf *.o
-	rm -rf *.gch
