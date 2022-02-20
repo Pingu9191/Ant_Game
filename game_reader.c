@@ -13,9 +13,6 @@
 #include <stdio.h>
 #include <string.h>
 
-////game create from file y load file
-
-
 /*
 * Loads the spaces and the information of each from a given file
 * In case debug is being used it prints the information of each space that is loaded
