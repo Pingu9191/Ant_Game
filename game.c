@@ -182,8 +182,7 @@ STATUS game_set_player_location(Game *game, Id id)
   {
     return ERROR;
   }
-
-  game_set_object_location(game, id);
+player_set_location(game->player, id);
 
   return OK;
 }
