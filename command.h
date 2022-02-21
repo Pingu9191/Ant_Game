@@ -15,8 +15,8 @@
 #define N_CMD 9
 
 typedef enum enum_CmdType {
-  CMDS,
-  CMDL
+  CMDS, // Abbrevation of the command 'e'
+  CMDL // Name of the command 'EXIT'
   } T_CmdType;
 
 typedef enum enum_Command {
