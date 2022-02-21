@@ -21,16 +21,22 @@ typedef enum enum_CmdType {
 
 typedef enum enum_Command {
   NO_CMD = -1,
-  UNKNOWN,
-  EXIT,
-  NEXT,
-  BACK,
-  RIGHT,
-  LEFT,
-  TAKE,
-  DROP
+  UNKNOWN, // No command detected
+  EXIT, // Leaving the game
+  NEXT, // Move next room
+  BACK, // Move room at the back
+  RIGHT, // Move room at the right
+  LEFT, // Move room at the left
+  TAKE, // Take an object
+  DROP // Drop an object
   } T_Command;
 
+/**
+  * @brief Scans input of the User
+  * @author Profesores PPROG
+  *
+  * @return 'cmd' with the command scaned
+  */
 T_Command command_get_user_input();
 
 #endif
